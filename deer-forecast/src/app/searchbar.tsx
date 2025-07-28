@@ -4,12 +4,12 @@ export default function SearchBar(){
     const [latQuery, setLatQuery] = useState("");
     const [longQuery, setLongQuery] = useState("");
     const [weather, setWeather] = useState(null);
-
+    const API_KEY = process.env.API_KEY
 
     const handleSearch= (e: React.FormEvent) => {
         e.preventDefault();
 
-        const url = `https://weather.googleapis.com/v1/forecast/days:lookup?key=AIzaSyAccPEHhRVE18DAkPnxjhi9fF9eYW3uRDM&location.latitude=${latQuery}&location.longitude=${longQuery}`
+        const url = `https://weather.googleapis.com/v1/forecast/days:lookup?key=${API_KEY}&location.latitude=${latQuery}&location.longitude=${longQuery}`
         fetch(url).then(data => data.json())
             .then(data => setWeather(data))//add fetch hear
 
