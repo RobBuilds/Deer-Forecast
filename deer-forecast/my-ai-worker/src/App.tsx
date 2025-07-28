@@ -1,63 +1,58 @@
-import OpenAI from "openai";
+import { useState } from 'react'
+import reactLogo from './assets/react.svg'
+import viteLogo from '/vite.svg'
+import cloudflareLogo from './assets/Cloudflare_Logo.svg'
+import './App.css'
 
+function App() {
+  const [count, setCount] = useState(0)
+  const [name, setName] = useState('unknown')
 
-function corsHeaders() {
-    return {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type"
-    };
+  return (
+    <>
+      <div>
+        <a href='https://vite.dev' target='_blank'>
+          <img src={viteLogo} className='logo' alt='Vite logo' />
+        </a>
+        <a href='https://react.dev' target='_blank'>
+          <img src={reactLogo} className='logo react' alt='React logo' />
+        </a>
+        <a href='https://workers.cloudflare.com/' target='_blank'>
+          <img src={cloudflareLogo} className='logo cloudflare' alt='Cloudflare logo' />
+        </a>
+      </div>
+      <h1>Vite + React + Cloudflare</h1>
+      <div className='card'>
+        <button
+          onClick={() => setCount((count) => count + 1)}
+          aria-label='increment'
+        >
+          count is {count}
+        </button>
+        <p>
+          Edit <code>src/App.tsx</code> and save to test HMR
+        </p>
+      </div>
+      <div className='card'>
+        <button
+          onClick={() => {
+            fetch('/api/')
+              .then((res) => res.json() as Promise<{ name: string }>)
+              .then((data) => setName(data.name))
+          }}
+          aria-label='get name'
+        >
+          Name from API is: {name}
+        </button>
+        <p>
+          Edit <code>worker/index.ts</code> to change the name
+        </p>
+      </div>
+      <p className='read-the-docs'>
+        Click on the Vite and React logos to learn more
+      </p>
+    </>
+  )
 }
 
-export default {
-    async fetch(request: Request, env: any) {
-        if (request.method === "OPTIONS"){
-            return new Response(null, {
-                status:204,
-                headers: corsHeaders()
-            });
-        }
-        if (request.method !== "POST") {
-            return new Response("Method not allowed", {status: 405,
-                headers: corsHeaders()
-            });
-        }
-        const { lat, long } = await request.json();
-
-        const client = new OpenAI({
-            apiKey: env.OPENAI_API_KEY,
-            baseURL: "https://gateway.ai.cloudflare.com/v1/d5dc49bf02deef67e4383157fde6553f/ai-translation/openai"
-        });
-
-        const weatherFetch = await fetch(
-            `https://weather.googleapis.com/v1/forecast/days:lookup?key=${env.GOOGLE_WEATHER_API_KEY}&location.latitude=${lat}&location.longitude=${long}`,
-            {
-                method: "GET",
-            }
-        );
-        const weatherData = await weatherFetch.json();
-        const weatherSum = JSON.stringify(weatherData.forecastDays?.[0], null, 2);
-        const response = await client.chat.completions.create({
-            model: "gpt-4",
-            messages: [
-                {
-                    role: "system",
-                    content: "you are a expert whitetail deer forecaster basing deer movement off of the data you receive"
-                },
-                {
-                    role: "user",
-                    content: `Here is the data ${weatherSum}, give me 2-4 sentances and tell me the peak movement time for the AM and PM (morning and evening deer movement`
-                }
-            ]
-
-        })
-
-
-        return new Response(JSON.stringify({
-            reply: response.choices[0].message.content
-        }), {
-            headers: corsHeaders()
-        });
-
-    },
-};
+export default App
