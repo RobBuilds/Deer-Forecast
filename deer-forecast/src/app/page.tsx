@@ -1,4 +1,4 @@
-
+import SearchBar from "@/app/searchbar";
 
 export default function Home() {
   type DayInfo = {
@@ -16,7 +16,7 @@ export default function Home() {
   });
     return (
         <div className="h-screen bg-gray-100 p-6">
-          <input className="searchbar"/>
+            <SearchBar/>
           <div className="flex bg-white shadow-md justify-start md:justify-center rounded-lg overflow-x-scroll mx-auto py-4 px-2 md:mx-12 mb-10">
             {days.map((day, index) => (
                 <div
