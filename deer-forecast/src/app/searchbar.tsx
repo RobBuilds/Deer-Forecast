@@ -38,28 +38,33 @@ export default function SearchBar(){
     // };
 //
 
-    const handleSearch= async (e: React.FormEvent) => {
+    const handleSearch = async (e: React.FormEvent) => {
         e.preventDefault();
-        const cleanLat = latQuery.replace(/[^\d.-]/g, '');
-        const cleanLon = longQuery.replace(/[^\d.-]/g, '');
 
-        const lat = parseFloat(cleanLat);
-        const lon = parseFloat(cleanLon);
-             try {
-                 const res = await fetch("/api/deer-forecast", {
-                     method: "POST",
-                     headers: { "Content-Type": "application/json" },
-                     body: JSON.stringify({ lat, lon })
-                 });
-            if (!res.ok) throw new Error("Failed to fetch weather data");
+        const cleanLat = parseFloat(latQuery.replace(/[^\d.-]/g, ""));
+        const cleanLon = parseFloat(longQuery.replace(/[^\d.-]/g, ""));
 
-            const data: ForecastSummary[] = await res.json();
+        const url = `https://gateway.ai.cloudflare.com/v1/d5dc49bf02deef67e4383157fde6553f/deer-forecast/`;
+
+        try {
+            const res = await fetch(url, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ lat: cleanLat, lon: cleanLon })
+            });
+
+            if (!res.ok) {
+                throw new Error("Failed to fetch forecast");
+            }
+
+            const data = await res.json();
             setWeather(data);
         } catch (err) {
             console.error(err);
             alert("Error fetching weather data");
         }
     };
+
 
     // const formattedWeather = (weather: WeatherApiResponse | null)  =>{
     //     if(!weather || !weather.forecastDays) return [];
