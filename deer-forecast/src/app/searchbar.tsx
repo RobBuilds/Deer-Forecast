@@ -3,19 +3,20 @@ import {OpenAI} from "openai";
 import React, {useState, useEffect} from 'react';
 
 //import {OpenAI} from "openai";
+type ForecastSummary = {
+    date: string;
+    description: string;
+    maxTemp: number;
+    minTemp: number;
+    humidity: number;
+    moonPhase: string;
+};
 export default function SearchBar(){
     const [latQuery, setLatQuery] = useState("");
     const [longQuery, setLongQuery] = useState("");
     const [weather, setWeather] = useState<ForecastSummary[] | null>(null);
 
-    type ForecastSummary = {
-        date: string;
-        description: string;
-        maxTemp: number;
-        minTemp: number;
-        humidity: number;
-        moonPhase: string;
-    };
+
 
 
     // type WeatherApiResponse ={
