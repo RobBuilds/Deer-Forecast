@@ -41,10 +41,19 @@ export default function SearchBar(){
     const handleSearch= async (e: React.FormEvent) => {
         e.preventDefault();
 
-        const url = `https://gateway.ai.cloudflare.com/v1/d5dc49bf02deef67e4383157fde6553f/deer-forecast?lat=${latQuery}&lon=${longQuery}`
+        const url = `https://gateway.ai.cloudflare.com/v1/d5dc49bf02deef67e4383157fde6553f/deer-forecast`
 
         try {
-            const res = await fetch(url);
+                const res = await fetch(url, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        lat: latQuery,
+                        lon: longQuery
+                    })
+                });
             if (!res.ok) throw new Error("Failed to fetch weather data");
 
             const data: ForecastSummary[] = await res.json();
