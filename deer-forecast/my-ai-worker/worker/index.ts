@@ -50,13 +50,16 @@ export default {
         headers: corsHeaders()
       });
     }
-    // const { lat, long } = await request.json() as {lat: number; long: number};
-    const url = new URL(request.url);
-    const lat = url.searchParams.get("lat");
-    const lon = url.searchParams.get("lon");
+    const { lat, lon } = await request.json() as {lat: number; lon: number};
+    // const url = new URL(request.url);
+    // const lat = url.searchParams.get("lat");
+    // const lon = url.searchParams.get("lon");
 
     if (!lat || !lon) {
-      return new Response("Missing lat or lon", { status: 400 });
+      return new Response("Missing lat or lon", {
+        status: 400,
+        headers: corsHeaders()
+      });
     }
     const client = new OpenAI({
       apiKey: env.OPENAI_API_KEY,
