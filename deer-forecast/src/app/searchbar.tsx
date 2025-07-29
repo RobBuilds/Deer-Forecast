@@ -42,13 +42,13 @@ export default function SearchBar(){
             // body: JSON.stringify({weather}, null, 2)
             body: JSON.stringify({ weather: weatherData }, null, 2)
         });
-        const text = await workerRes.text();
         try {
             const deerForecast = await workerRes.json();
             setForecast(deerForecast);
             console.log("AI Response:", deerForecast.reply)
         }
         catch (err){
+            const text = await workerRes.text();
             console.error("Worker response was not JSON: ", text)
         }
     };

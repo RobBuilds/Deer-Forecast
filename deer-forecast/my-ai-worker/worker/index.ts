@@ -46,7 +46,7 @@ export default {
       const weatherSummary = JSON.stringify(weather.forecastDays?.[0], null, 2);
 
       const response = await client.chat.completions.create({
-        model: "gpt-4",
+        model: "gpt-4o",
         messages: [
           {
             role: "system",
