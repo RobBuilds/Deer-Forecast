@@ -40,7 +40,11 @@ export default function SearchBar(){
 
     const handleSearch= async (e: React.FormEvent) => {
         e.preventDefault();
+        const cleanLat = latQuery.replace(/[^\d.-]/g, '');
+        const cleanLon = longQuery.replace(/[^\d.-]/g, '');
 
+        const lat = parseFloat(cleanLat);
+        const lon = parseFloat(cleanLon);
         const url = `https://gateway.ai.cloudflare.com/v1/d5dc49bf02deef67e4383157fde6553f/deer-forecast`
 
         try {
@@ -49,10 +53,8 @@ export default function SearchBar(){
                     headers: {
                         "Content-Type": "application/json"
                     },
-                    body: JSON.stringify({
-                        lat: parseFloat(latQuery),
-                        lon: parseFloat(longQuery)
-                    })
+
+                    body: JSON.stringify({lat, lon})
                 });
             if (!res.ok) throw new Error("Failed to fetch weather data");
 
