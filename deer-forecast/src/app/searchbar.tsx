@@ -50,8 +50,8 @@ export default function SearchBar(){
                         "Content-Type": "application/json"
                     },
                     body: JSON.stringify({
-                        lat: latQuery,
-                        lon: longQuery
+                        lat: parseFloat(latQuery),
+                        lon: parseFloat(longQuery)
                     })
                 });
             if (!res.ok) throw new Error("Failed to fetch weather data");
