@@ -45,17 +45,12 @@ export default function SearchBar(){
 
         const lat = parseFloat(cleanLat);
         const lon = parseFloat(cleanLon);
-        const url = `https://gateway.ai.cloudflare.com/v1/d5dc49bf02deef67e4383157fde6553f/deer-forecast`
-
-        try {
-                const res = await fetch(url, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-
-                    body: JSON.stringify({lat, lon})
-                });
+             try {
+                 const res = await fetch("/api/deer-forecast", {
+                     method: "POST",
+                     headers: { "Content-Type": "application/json" },
+                     body: JSON.stringify({ lat, lon })
+                 });
             if (!res.ok) throw new Error("Failed to fetch weather data");
 
             const data: ForecastSummary[] = await res.json();
