@@ -1,0 +1,6 @@
+name = "my-ai-worker"
+type = "javascript" # or "module" if you're using module syntax
+account_id = "d5dc49bf02deef67e4383157fde6553f"
+workers_dev = true
+main = "worker/index.ts" # or "index.js" if using JS
+compatibility_date = "2025-07-29"
