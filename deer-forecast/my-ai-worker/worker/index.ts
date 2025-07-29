@@ -63,7 +63,7 @@ export default {
     }
     const client = new OpenAI({
       apiKey: env.OPENAI_API_KEY,
-      baseURL: "https://gateway.ai.cloudflare.com/v1/d5dc49bf02deef67e4383157fde6553f/openai"
+      baseURL: "https://gateway.ai.cloudflare.com/v1/d5dc49bf02deef67e4383157fde6553f/deer-forecast/openai"
     });
 
     const weatherFetch = await fetch(
