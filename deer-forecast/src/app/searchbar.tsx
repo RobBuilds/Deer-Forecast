@@ -85,11 +85,11 @@ export default function SearchBar(){
                 placeholder="Enter Longitude"
                 value={longQuery}
                 onChange={(e) => setLongQuery(e.target.value)}
-                className="w-64 px-4 py-2 rounded-l-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-full md:w-60 px-4 py-2 bg-[#3b463f] text-yellow-100 placeholder-yellow-300 border border-yellow-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 transition"
             />
             <button
                 type="submit"
-                className="bg-purple-600 text-white px-4 py-2 rounded-r-md hover:bg-purple-700 transition-al"
+                className="bg-yellow-400 text-[#2f3a35] px-6 py-2 rounded-md font-semibold hover:bg-yellow-500 transition"
             >
                 Search
             </button>
