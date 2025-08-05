@@ -12,9 +12,10 @@ interface Env {
   OPENAI_API_KEY: string;
   GOOGLE_WEATHER_API_KEY: string;
 }
-interface RequestBody{
-  weather: any;
-}
+// interface RequestBody{
+//   weather: any;
+// }
+
 
 
 export default {
@@ -35,15 +36,29 @@ export default {
 
     try {
 
+      const { latitude, longitude } = await request.json() as {
+        latitude: number;
+        longitude: number;
+      };
+
+      const weatherRes = await fetch(
+          `https://weather.googleapis.com/v1/forecast/days:lookup?key=${env.GOOGLE_WEATHER_API_KEY}&location.latitude=${latitude}&location.longitude=${longitude}`
+      );
+      const weatherData = await weatherRes.json() as {
+        forecastDays?: any[];
+      };
+
+      const summary = JSON.stringify(weatherData.forecastDays?.[0], null, 2);
 
       const client = new OpenAI({
         apiKey: env.OPENAI_API_KEY,
         baseURL: "https://gateway.ai.cloudflare.com/v1/d5dc49bf02deef67e4383157fde6553f/deer-forecast/openai",
       });
-      const body: RequestBody = await request.json();
-      const weather = body.weather;
+      //const weatherData = await weatherRes.json();
+      //const body: RequestBody = await request.json();
+      //const weather = body.weather;
       // const weatherSummary = JSON.stringify(weather, null, 2);
-      const weatherSummary = JSON.stringify(weather.forecastDays?.[0], null, 2);
+      //const weatherSummary = JSON.stringify(weather.forecastDays?.[0], null, 2);
 
       const response = await client.chat.completions.create({
         model: "gpt-4o",
@@ -54,7 +69,7 @@ export default {
           },
           {
             role: "user",
-            content: `Here is the weather data: ${weatherSummary}. Provide a 2-4 sentence forecast and note peak AM/PM movement times.`,
+            content: `Here is the weather data: ${summary}. Provide a 2-4 sentence forecast and note peak AM/PM movement times.`,
           },
         ],
       });

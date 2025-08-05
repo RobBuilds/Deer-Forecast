@@ -8,7 +8,6 @@ export default function SearchBar(){
     const [longQuery, setLongQuery] = useState("");
     const [weather, setWeather] = useState(null);
     const[foreCast, setForecast] =  useState(null);
-    const GOOGLE_WEATHER_API_KEY = process.env.NEXT_PUBLIC_API_KEY
     type WeatherApiResponse ={
         forecastDays: ForecastDay[];
     }
@@ -29,19 +28,29 @@ export default function SearchBar(){
     const handleSearch= async (e: React.FormEvent) => {
         e.preventDefault();
 
-        const url = `https://weather.googleapis.com/v1/forecast/days:lookup?key=${GOOGLE_WEATHER_API_KEY}&location.latitude=${latQuery}&location.longitude=${longQuery}`
+       // const url = `https://weather.googleapis.com/v1/forecast/days:lookup?key=${API_KEY}&location.latitude=${latQuery}&location.longitude=${longQuery}`
         const workerUrl = "https://my-ai-worker.p-ai-translation.workers.dev/"
-        const results =await  fetch(url);
-        const weatherData = await  results.json();
-        setWeather(weatherData);//add fetch hear
+        // const results =await  fetch(url);
         const workerRes = await fetch(workerUrl, {
             method: "POST",
-            headers:{
+            headers: {
                 "Content-Type": "application/json"
             },
-            // body: JSON.stringify({weather}, null, 2)
-            body: JSON.stringify({ weather: weatherData }, null, 2)
+            body: JSON.stringify({
+                latitude: latQuery,
+                longitude: longQuery
+            })
         });
+        // const weatherData = await  results.json();
+        // setWeather(weatherData);//add fetch hear
+        // const workerRes = await fetch(workerUrl, {
+        //     method: "POST",
+        //     headers:{
+        //         "Content-Type": "application/json"
+        //     },
+        //     // body: JSON.stringify({weather}, null, 2)
+        //     body: JSON.stringify({ weather: weatherData }, null, 2)
+        // });
         try {
             const deerForecast = await workerRes.json();
             setForecast(deerForecast.reply);
