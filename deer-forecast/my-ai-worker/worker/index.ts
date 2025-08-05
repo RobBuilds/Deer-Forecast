@@ -59,15 +59,14 @@ export default {
         ],
       });
 
-      return new Response(JSON.stringify(response.choices[0].message.content), {
+      return new Response(JSON.stringify({ reply: response.choices[0].message.content }), {
         headers: corsHeaders(),
       });
-
     } catch (err) {
       console.error("Worker error:", err);
       return new Response("Internal Server Error", {
         status: 500,
-        headers: corsHeaders(), // ✅ include CORS on failure too
+        headers: corsHeaders(),
       });
     }
   },

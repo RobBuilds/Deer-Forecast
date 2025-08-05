@@ -44,7 +44,7 @@ export default function SearchBar(){
         });
         try {
             const deerForecast = await workerRes.json();
-            setForecast(deerForecast);
+            setForecast(deerForecast.reply);
             console.log("AI Response:", deerForecast)
         }
         catch (err){
@@ -102,7 +102,7 @@ export default function SearchBar(){
     {foreCast && (
                 <div className="mt-2 w-full max-w-4xl bg-[#3b463f] text-yellow-100 border border-yellow-600 rounded-xl shadow-md p-3 whitespace-pre-wrap text-[10px] leading-tight">
                     <h2 className="text-xs font-bold mb-2 text-yellow-300 uppercase tracking-wide"/>
-                    {JSON.stringify(foreCast, null, 2)}
+                    {foreCast}
                 </div>
             )}
             </div>
