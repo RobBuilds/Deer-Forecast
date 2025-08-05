@@ -65,11 +65,11 @@ export default {
         messages: [
           {
             role: "system",
-            content: "You are a whitetail deer forecasting expert.",
+            content: "You are a whitetail deer forecasting expert that provides peak deer movement based on weather data",
           },
           {
             role: "user",
-            content: `Here is the weather data: ${summary}. Provide a 2-4 sentence forecast and note peak AM/PM movement times.`,
+            content: `Here is the weather data: ${summary}. Provide a 2-4 sentence forecast and note peak AM/PM movement times. Note the county/city if you know it. No more that 100 words`,
           },
         ],
       });
