@@ -45,7 +45,7 @@ export default function SearchBar(){
         try {
             const deerForecast = await workerRes.json();
             setForecast(deerForecast);
-            console.log("AI Response:", deerForecast.reply)
+            console.log("AI Response:", deerForecast)
         }
         catch (err){
             const text = await workerRes.text();
@@ -72,29 +72,38 @@ export default function SearchBar(){
         });
     };
     return (
-        <form onSubmit={handleSearch} className="flex items-center justify-center my-4">
+        <div>
+        <form
+            onSubmit={handleSearch}
+            className="flex flex-wrap justify-center gap-2 w-full max-w-4xl"
+        >
             <input
                 type="text"
-                placeholder="Enter Latitude"
+                placeholder="Latitude"
                 value={latQuery}
                 onChange={(e) => setLatQuery(e.target.value)}
-                className="w-64 px-4 py-2 rounded-l-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-36 sm:w-44 px-3 py-2 bg-[#3b463f] text-yellow-100 placeholder-yellow-300 border border-yellow-600 rounded-md text-sm"
             />
             <input
                 type="text"
-                placeholder="Enter Longitude"
+                placeholder="Longitude"
                 value={longQuery}
                 onChange={(e) => setLongQuery(e.target.value)}
-                className="w-full md:w-60 px-4 py-2 bg-[#3b463f] text-yellow-100 placeholder-yellow-300 border border-yellow-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 transition"
+                className="w-36 sm:w-44 px-3 py-2 bg-[#3b463f] text-yellow-100 placeholder-yellow-300 border border-yellow-600 rounded-md text-sm"
             />
             <button
                 type="submit"
-                className="bg-yellow-400 text-[#2f3a35] px-6 py-2 rounded-md font-semibold hover:bg-yellow-500 transition"
+                className="px-4 py-2 bg-yellow-400 text-[#2f3a35] rounded-md font-semibold hover:bg-yellow-500 transition text-sm"
             >
                 Search
             </button>
-            <div>
-                {JSON.stringify(foreCast, null, 2)}
-            </div>
         </form>
+
+    {foreCast && (
+                <div className="mt-2 w-full max-w-4xl bg-[#3b463f] text-yellow-100 border border-yellow-600 rounded-xl shadow-md p-3 whitespace-pre-wrap text-[10px] leading-tight">
+                    <h2 className="text-xs font-bold mb-2 text-yellow-300 uppercase tracking-wide"/>
+                    {JSON.stringify(foreCast, null, 2)}
+                </div>
+            )}
+            </div>
     );}
