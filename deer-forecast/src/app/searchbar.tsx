@@ -8,7 +8,7 @@ export default function SearchBar(){
     const [longQuery, setLongQuery] = useState("");
     const [weather, setWeather] = useState(null);
     const[foreCast, setForecast] =  useState(null);
-    const API_KEY = process.env.NEXT_PUBLIC_API_KEY
+    const GOOGLE_WEATHER_API_KEY = process.env.NEXT_PUBLIC_API_KEY
     type WeatherApiResponse ={
         forecastDays: ForecastDay[];
     }
@@ -29,7 +29,7 @@ export default function SearchBar(){
     const handleSearch= async (e: React.FormEvent) => {
         e.preventDefault();
 
-        const url = `https://weather.googleapis.com/v1/forecast/days:lookup?key=${API_KEY}&location.latitude=${latQuery}&location.longitude=${longQuery}`
+        const url = `https://weather.googleapis.com/v1/forecast/days:lookup?key=${GOOGLE_WEATHER_API_KEY}&location.latitude=${latQuery}&location.longitude=${longQuery}`
         const workerUrl = "https://my-ai-worker.p-ai-translation.workers.dev/"
         const results =await  fetch(url);
         const weatherData = await  results.json();
