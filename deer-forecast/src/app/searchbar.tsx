@@ -1,7 +1,7 @@
 "use client";
 
 import React, {useState, useEffect} from 'react';
-
+//trigger redeploy
 //import {OpenAI} from "openai";
 export default function SearchBar(){
     const [latQuery, setLatQuery] = useState("");
